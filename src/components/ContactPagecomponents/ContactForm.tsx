@@ -1,6 +1,11 @@
-import React from "react";
+import type { FC, FormEvent } from "react";
 
-const ContactForm: React.FC = () => {
+const ContactForm: FC = () => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    // You can handle form submission logic here
+  };
+
   return (
     <div className="max-w-7xl mx-auto px-4 py-12 bg-[#27272A]">
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -16,7 +21,10 @@ const ContactForm: React.FC = () => {
             </p>
           </div>
 
-          <form className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <form
+            className="grid grid-cols-1 md:grid-cols-2 gap-6"
+            onSubmit={handleSubmit}
+          >
             {/* First Name */}
             <div>
               <label
@@ -137,7 +145,7 @@ const ContactForm: React.FC = () => {
             <p className="text-gray-300 mb-4">New York, NY 10001</p>
 
             {/* Map Placeholder */}
-            <div className="bg-gray-800 border border-gray-700 rounded-xl w-full h-48 flex items-center justify-center text-gray-400">
+            <div className="bg-gray-800 border border-gray-700 rounded-xl w-full h-48 flex items-center justify-center text-gray-400 relative">
               Interactive Map Component
               <div className="absolute text-center text-sm mt-24 text-gray-400">
                 123 Business Ave, Suite 100, New York, NY 10001

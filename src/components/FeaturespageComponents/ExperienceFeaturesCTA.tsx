@@ -1,4 +1,6 @@
-const ExperienceFeaturesCTA = () => {
+import React from "react";
+
+const ExperienceFeaturesCTA: React.FC = () => {
   return (
     <section className="bg-[#09090B] py-16 px-6 sm:px-12 lg:px-20 text-center">
       <h2 className="text-white text-2xl sm:text-5xl font-bold mb-4">

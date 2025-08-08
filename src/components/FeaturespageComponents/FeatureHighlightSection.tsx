@@ -1,4 +1,6 @@
-const FeatureHighlightSection = () => {
+import React from "react";
+
+const FeatureHighlightSection: React.FC = () => {
   return (
     <section className="bg-[#09090B] py-16 px-6 sm:px-12 lg:px-20">
       <div className="max-w-4xl mx-auto text-center rounded-lg">

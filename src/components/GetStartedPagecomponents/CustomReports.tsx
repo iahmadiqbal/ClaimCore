@@ -15,7 +15,10 @@ const CustomReports: React.FC = () => {
             <li>Real-time data updates</li>
           </ul>
 
-          <button className="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 px-8 rounded-md transition-colors">
+          <button
+            type="button"
+            className="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 px-8 rounded-md transition-colors"
+          >
             Generate Report
           </button>
         </div>

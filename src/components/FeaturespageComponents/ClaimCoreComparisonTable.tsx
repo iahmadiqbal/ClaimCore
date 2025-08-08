@@ -1,23 +1,24 @@
 import { FiCheck, FiX } from "react-icons/fi";
+import React from "react";
 
-const features = ["Mobile App", "Real-time Sync", "API Access"];
+const features: string[] = ["Mobile App", "Real-time Sync", "API Access"];
 
 // Feature availability for each product
-const data = {
+const data: Record<string, boolean[]> = {
   ClaimCore: [true, true, true],
   CompetitorA: [true, false, false],
   CompetitorB: [false, false, true],
 };
 
-const CheckIcon = () => (
+const CheckIcon: React.FC = () => (
   <FiCheck className="text-green-500 w-6 h-6 mx-auto" aria-label="Available" />
 );
 
-const CrossIcon = () => (
+const CrossIcon: React.FC = () => (
   <FiX className="text-red-500 w-6 h-6 mx-auto" aria-label="Not Available" />
 );
 
-const ClaimCoreComparisonTable = () => {
+const ClaimCoreComparisonTable: React.FC = () => {
   return (
     <section className="bg-[#27272A] py-24 px-6 sm:px-12 lg:px-20">
       <div className="max-w-7xl mx-auto">
@@ -44,7 +45,7 @@ const ClaimCoreComparisonTable = () => {
                     {feature}
                   </td>
                   {[data.ClaimCore, data.CompetitorA, data.CompetitorB].map(
-                    (colData, colIdx) => (
+                    (colData: boolean[], colIdx: number) => (
                       <td key={colIdx} className="border border-gray-700 p-4">
                         {colData[idx] ? <CheckIcon /> : <CrossIcon />}
                       </td>

@@ -1,7 +1,12 @@
 import React from "react";
 
+interface AnalyticsItem {
+  title: string;
+  description: string;
+}
+
 const AdvancedAnalytics: React.FC = () => {
-  const analytics = [
+  const analytics: AnalyticsItem[] = [
     {
       title: "Claims Distribution",
       description:

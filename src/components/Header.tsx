@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useState, type FC } from "react";
 import { Link } from "react-router-dom";
 
-const Header = () => {
-  const [isOpen, setIsOpen] = useState(false);
+const Header: FC = () => {
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
   // Common classes for nav links with hover underline & background
   const navLinkClasses =

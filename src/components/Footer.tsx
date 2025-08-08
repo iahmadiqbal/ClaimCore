@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC } from "react";
 import { Link } from "react-router-dom";
 import {
   FaFacebookF,
@@ -7,7 +7,7 @@ import {
   FaInstagram,
 } from "react-icons/fa";
 
-const Footer: React.FC = () => {
+const Footer: FC = () => {
   return (
     <footer className="bg-[#27272A] text-gray-300 py-6 px-6 sm:px-12 lg:px-24">
       <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10">
@@ -153,8 +153,7 @@ const Footer: React.FC = () => {
 
       {/* Bottom Row */}
       <div className="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center text-sm text-gray-500">
-        <p>© 2024 ClaimCore. All rights reserved.</p>
-
+        <p>© {new Date().getFullYear()} ClaimCore. All rights reserved.</p>
         <div className="flex space-x-6 mt-4 sm:mt-0">
           <Link to="/privacy-policy" className="hover:text-white">
             Privacy Policy

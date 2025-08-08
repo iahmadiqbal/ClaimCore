@@ -1,7 +1,14 @@
 import React from "react";
 
+type Stat = {
+  title: string;
+  value: string;
+  change: string;
+  positive: boolean;
+};
+
 const ActiveClaimsStats: React.FC = () => {
-  const stats = [
+  const stats: Stat[] = [
     {
       title: "Active Claims",
       value: "1,247",

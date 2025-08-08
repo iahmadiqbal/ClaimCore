@@ -1,7 +1,13 @@
 import React from "react";
 import { FiTrendingUp, FiCheckCircle, FiDollarSign } from "react-icons/fi";
 
-const benefits = [
+interface Benefit {
+  icon: React.ComponentType<{ size?: number; className?: string }>;
+  title: string;
+  description: string;
+}
+
+const benefits: Benefit[] = [
   {
     icon: FiTrendingUp,
     title: "Increased Efficiency",
@@ -19,7 +25,7 @@ const benefits = [
   },
 ];
 
-const KeyBenefitsSection = () => {
+const KeyBenefitsSection: React.FC = () => {
   return (
     <section className="bg-[#09090B] py-16 px-6 sm:px-12 lg:px-20">
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-start gap-12">

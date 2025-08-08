@@ -1,6 +1,13 @@
+import React from "react";
 import { FiCamera, FiFileText, FiCloud } from "react-icons/fi";
 
-const features = [
+interface Feature {
+  icon: React.ElementType;
+  title: string;
+  description: string;
+}
+
+const features: Feature[] = [
   {
     icon: FiCamera,
     title: "Photo Documentation",
@@ -21,7 +28,7 @@ const features = [
   },
 ];
 
-const FeaturesExitSection = () => {
+const FeaturesExitSection: React.FC = () => {
   return (
     <section className="bg-[#27272A] py-16 px-6 sm:px-12 lg:px-20">
       <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
