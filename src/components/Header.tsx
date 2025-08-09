@@ -11,7 +11,7 @@ const Header: FC = () => {
     "block hover:underline hover:decoration-yellow-300 hover:underline-offset-4";
 
   return (
-    <header className="bg-[#09090B] text-white shadow-md border-b border-gray-700">
+    <header className="sticky top-0 z-50 bg-[#09090B] text-white shadow-md border-b border-gray-700">
       <div className="max-w-7xl mx-auto px-6 sm:px-6 lg:px-8">
         <div className="flex justify-between h-20 items-center">
           {/* Logo / Brand */}
