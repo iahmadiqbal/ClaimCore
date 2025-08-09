@@ -1,15 +1,68 @@
-import type { FC, FormEvent } from "react";
+import { useState, useEffect, type FC } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+import { getDatabase, ref, push, set } from "firebase/database";
+import { app } from "../../pages/ContactPage/firebase";
+
+const contactFormSchema = z.object({
+  firstName: z.string().min(1, "First name is required"),
+  lastName: z.string().min(1, "Last name is required"),
+  email: z.string().email("Invalid email address").min(1, "Email is required"),
+  phone: z.string().optional(),
+  company: z.string().optional(),
+  message: z.string().optional(),
+});
+
+type ContactFormInputs = z.infer<typeof contactFormSchema>;
 
 const ContactForm: FC = () => {
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    // You can handle form submission logic here
+  const [submitted, setSubmitted] = useState(false);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm<ContactFormInputs>({
+    resolver: zodResolver(contactFormSchema),
+    defaultValues: {
+      firstName: "",
+      lastName: "",
+      email: "",
+      phone: "",
+      company: "",
+      message: "",
+    },
+  });
+
+  const onSubmit = async (data: ContactFormInputs) => {
+    try {
+      const db = getDatabase(app);
+      const contactRef = ref(db, "contacts"); // Firebase Realtime DB node
+
+      const newContactRef = push(contactRef);
+      await set(newContactRef, data);
+
+      setSubmitted(true);
+      reset();
+    } catch (error) {
+      console.error("Error saving contact data:", error);
+      // Optionally, show user an error message here
+    }
   };
+
+  useEffect(() => {
+    if (submitted) {
+      const timer = setTimeout(() => setSubmitted(false), 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [submitted]);
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-12 bg-[#27272A]">
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Left Column - Contact Form */}
         <div className="lg:col-span-2 bg-[#3f3f46] rounded-xl shadow-lg p-6 md:p-8">
           <div className="mb-8">
             <h2 className="text-3xl font-bold text-[#FA7533] mb-2">
@@ -21,9 +74,16 @@ const ContactForm: FC = () => {
             </p>
           </div>
 
+          {submitted && (
+            <div className="mb-6 p-4 bg-green-600 text-white rounded">
+              Your form has been submitted. Thank you!
+            </div>
+          )}
+
           <form
             className="grid grid-cols-1 md:grid-cols-2 gap-6"
-            onSubmit={handleSubmit}
+            onSubmit={handleSubmit(onSubmit)}
+            noValidate
           >
             {/* First Name */}
             <div>
@@ -34,11 +94,18 @@ const ContactForm: FC = () => {
                 First Name
               </label>
               <input
-                type="text"
                 id="firstName"
-                className="w-full px-4 py-3 bg-[#27272A] border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white"
-                placeholder="John"
+                type="text"
+                {...register("firstName")}
+                className={`w-full px-4 py-3 bg-[#27272A] border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white ${
+                  errors.firstName ? "border-red-500" : "border-gray-600"
+                }`}
               />
+              {errors.firstName && (
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.firstName.message}
+                </p>
+              )}
             </div>
 
             {/* Last Name */}
@@ -50,11 +117,18 @@ const ContactForm: FC = () => {
                 Last Name
               </label>
               <input
-                type="text"
                 id="lastName"
-                className="w-full px-4 py-3 bg-[#27272A] border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white"
-                placeholder="Doe"
+                type="text"
+                {...register("lastName")}
+                className={`w-full px-4 py-3 bg-[#27272A] border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white ${
+                  errors.lastName ? "border-red-500" : "border-gray-600"
+                }`}
               />
+              {errors.lastName && (
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.lastName.message}
+                </p>
+              )}
             </div>
 
             {/* Email */}
@@ -66,11 +140,18 @@ const ContactForm: FC = () => {
                 Email
               </label>
               <input
-                type="email"
                 id="email"
-                className="w-full px-4 py-3 bg-[#27272A] border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white"
-                placeholder="john@company.com"
+                type="email"
+                {...register("email")}
+                className={`w-full px-4 py-3 bg-[#27272A] border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white ${
+                  errors.email ? "border-red-500" : "border-gray-600"
+                }`}
               />
+              {errors.email && (
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.email.message}
+                </p>
+              )}
             </div>
 
             {/* Phone */}
@@ -82,10 +163,10 @@ const ContactForm: FC = () => {
                 Phone
               </label>
               <input
-                type="tel"
                 id="phone"
+                type="tel"
+                {...register("phone")}
                 className="w-full px-4 py-3 bg-[#27272A] border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white"
-                placeholder="(555) 123-4567"
               />
             </div>
 
@@ -98,10 +179,10 @@ const ContactForm: FC = () => {
                 Company
               </label>
               <input
-                type="text"
                 id="company"
+                type="text"
+                {...register("company")}
                 className="w-full px-4 py-3 bg-[#27272A] border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white"
-                placeholder="Your Company Name"
               />
             </div>
 
@@ -116,9 +197,9 @@ const ContactForm: FC = () => {
               <textarea
                 id="message"
                 rows={4}
+                {...register("message")}
                 className="w-full px-4 py-3 bg-[#27272A] border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white"
-                placeholder="Tell us about your needs..."
-              ></textarea>
+              />
             </div>
 
             {/* Submit Button */}
@@ -155,7 +236,6 @@ const ContactForm: FC = () => {
 
           {/* Contact Details */}
           <div className="space-y-6">
-            {/* Phone */}
             <div>
               <h3 className="text-lg font-semibold text-white mb-2">Phone</h3>
               <p className="text-gray-300">+1 (555) 123-4567</p>
@@ -163,7 +243,6 @@ const ContactForm: FC = () => {
               <p className="text-gray-400 text-sm">9:00 AM - 6:00 PM EST</p>
             </div>
 
-            {/* Email */}
             <div>
               <h3 className="text-lg font-semibold text-white mb-2">Email</h3>
               <ul className="text-gray-300 space-y-1">
