@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 const Header: FC = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
-  // Common classes for nav links with hover underline & background
   const navLinkClasses =
     "relative hover:bg-[#FA7533] hover:text-white px-3 py-2 rounded transition";
 
@@ -12,9 +11,9 @@ const Header: FC = () => {
     "block hover:underline hover:decoration-yellow-300 hover:underline-offset-4";
 
   return (
-    <header className="bg-[#09090B] text-white shadow-md">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-16 items-center">
+    <header className="bg-[#09090B] text-white shadow-md border-b border-gray-700">
+      <div className="max-w-7xl mx-auto px-6 sm:px-6 lg:px-8">
+        <div className="flex justify-between h-20 items-center">
           {/* Logo / Brand */}
           <div className="flex-shrink-0 flex items-center cursor-pointer">
             <Link to="/" className="flex items-center space-x-2">
@@ -88,7 +87,7 @@ const Header: FC = () => {
 
       {/* Mobile menu */}
       {isOpen && (
-        <nav className="md:hidden bg-[#09090B] px-2 pt-2 pb-3 space-y-1">
+        <nav className="md:hidden bg-[#09090B] px-6 pt-2 pb-3 space-y-1">
           <Link
             to="/"
             className="block px-3 py-2 rounded text-white hover:bg-[#FA7533] hover:underline hover:decoration-yellow-300 hover:underline-offset-4"
